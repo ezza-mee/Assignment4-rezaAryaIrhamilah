@@ -176,6 +176,8 @@ function handleDeleteResume() {
 	if (resumeCard) {
 		resumeCard.remove();
 	}
+
+	localStorage.setItem(RESUME_STORAGE, JSON.stringify(resumeData));
 }
 
 deleteDataResume.addEventListener('click', handleDeleteResume);
