@@ -19,7 +19,7 @@
 						<div class="w-full mt-6 flex justify-center sm:justify-center space-x-4">
 							<button id="btn-update" type="button" class="bg-blue-800 w-24 h-10 rounded-lg text-white">Edit</button>
 							<button id="btn-input" type="button" class="bg-green-800 w-24 h-10 rounded-lg text-white">Resume</button>
-							<button onclick="handleDeleteResume({id})" id="btn-delete" type="button" class="bg-red-800 w-24 h-10 rounded-lg text-white">Delete</button>
+							<button id="btn-delete" type="button" class="bg-red-800 w-24 h-10 rounded-lg text-white">Delete</button>
 						</div>
 					</section>
 					<main class="bg-slate-700 w-full h-60 flex justify-center items-center">
@@ -41,9 +41,9 @@
 
 		<!-- startSection -->
 		<div class="h-screen w-full lg:h-[80vh] md:h-[66vh] flex justify-center bg-slate-800">
-			<main class="h-auto w-5/6 bg-slate-200">
+			<main id="add-container" class="hidden h-auto w-5/6 bg-slate-200">
 				<section class="flex justify-center w-full bg-slate-200">
-					<form action="" class="flex flex-col w-5/6 mt-10">
+					<form id="resume-form" class="flex flex-col w-5/6 mt-10">
 						<!-- Name -->
 						<label for="name" class="font-black">Name</label>
 						<input type="text" for="name" class="mt-2 h-8" id="add-name" placeholder="Add your name" />
@@ -72,7 +72,7 @@
 						<label for="email" class="font-black mt-2">Email</label>
 						<input type="text" for="email" class="mt-2 h-8" id="add-email" placeholder="Add your email" />
 						<!-- email -->
-						<button id="add-resume" type="button" class="w-full h-10 bg-green-800 text-white mt-10 rounded-lg font-black">Submit</button>
+						<button id="btn-submit" type="button" class="w-full h-10 bg-green-800 text-white mt-10 rounded-lg font-black">Submit</button>
 					</form>
 				</section>
 			</main>
