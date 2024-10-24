@@ -59,6 +59,11 @@ function handleInputResume() {
 	const addResumeCard = insertResumeCard(id, availability, age, location, experience, email);
 	addResumeContainer.innerHTML += addResumeCard;
 
+	if (resumeData.length > 0) {
+		console.log('data sudah terisi');
+		return;
+	}
+
 	resumeData.push({
 		id: id,
 		identity: { name: name, role: role },
@@ -95,8 +100,8 @@ function handleReadResume() {
 				const identityContainer = document.getElementById('identity-container');
 				const resumeContainer = document.getElementById('resume-container');
 
-				identityContainer.innerHTML += identityHTML;
-				resumeContainer.innerHTML += resumeHTML;
+				identityContainer.innerHTML = identityHTML;
+				resumeContainer.innerHTML = resumeHTML;
 
 				resumeData = initialResume;
 			}
@@ -130,23 +135,32 @@ function setResumeToForm() {
 	}
 }
 
-window.addEventListener('load', (_) => {
-	handleReadResume();
-});
+function displayResumeData() {
+	let resumeData = JSON.parse(localStorage.getItem(RESUME_STORAGE)) || [];
+	const resumeIndex = resumeData.findIndex((identity) => identity.id === id);
+
+	if (resumeIndex !== -1) {
+		// Update isi dari div dengan data yang diambil dari localStorage
+		document.getElementById('resume-name').textContent = resumeData[resumeIndex].identity.name;
+		document.getElementById('resume-role').textContent = resumeData[resumeIndex].identity.role;
+		document.getElementById('resume-availability').textContent = resumeData[resumeIndex].resume.availability;
+		document.getElementById('resume-age').textContent = resumeData[resumeIndex].resume.age;
+		document.getElementById('resume-location').textContent = resumeData[resumeIndex].resume.location;
+		document.getElementById('resume-experience').textContent = resumeData[resumeIndex].resume.experience;
+		document.getElementById('resume-email').textContent = resumeData[resumeIndex].resume.email;
+	} else {
+		console.log('Data tidak ditemukan di localStorage');
+	}
+}
 
 function handleUpdateResume() {
-	const updateName = document.getElementById('edit-name');
-	const updateRole = document.getElementById('add-role');
-	const updateAvailability = document.getElementById('add-availability');
-	const updateAge = document.getElementById('add-Age');
-	const updateLocation = document.getElementById('add-location');
-	const updateExperience = document.getElementById('add-experience');
-	const updateEmail = document.getElementById('add-email');
-
-	const identityContainer = document.getElementById('identity-container');
-	const resumeContainer = document.getElementById('resume-container');
-	identityContainer.innerHTML = '';
-	resumeContainer.innerHTML = '';
+	const updateName = document.getElementById('add-name').value;
+	const updateRole = document.getElementById('add-role').value;
+	const updateAvailability = document.getElementById('add-availability').value;
+	const updateAge = document.getElementById('add-age').value;
+	const updateLocation = document.getElementById('add-location').value;
+	const updateExperience = document.getElementById('add-experience').value;
+	const updateEmail = document.getElementById('add-email').value;
 
 	let resumeData = JSON.parse(localStorage.getItem(RESUME_STORAGE)) || [];
 	const resumeIndex = resumeData.findIndex((identity) => identity.id === id);
@@ -160,7 +174,10 @@ function handleUpdateResume() {
 		resumeData[resumeIndex].resume.experience = updateExperience;
 		resumeData[resumeIndex].resume.email = updateEmail;
 		localStorage.setItem(RESUME_STORAGE, JSON.stringify(resumeData));
+
 		console.log('data berhasil diperbarui');
+
+		handleReadResume();
 	} else {
 		console.log('data gagal diperbarui');
 	}
@@ -187,9 +204,20 @@ function handleDeleteResume() {
 	localStorage.setItem(RESUME_STORAGE, JSON.stringify(resumeData));
 }
 
-deleteResumeBtn.addEventListener('click', handleDeleteResume);
+window.addEventListener('load', (_) => {
+	handleReadResume();
+});
 
-addResumeBtn.addEventListener('click', handleInputResume);
+addResumeBtn.addEventListener('click', function () {
+	let resumeData = JSON.parse(localStorage.getItem(RESUME_STORAGE));
+	const resumeIndex = resumeData.findIndex((resume) => resume.id === id);
+
+	if (resumeIndex !== -1) {
+		handleUpdateResume();
+	} else {
+		handleInputResume();
+	}
+});
 
 inputResumeBtn.addEventListener('click', function () {
 	if (addFormResume.style.display === 'none') {
@@ -200,6 +228,13 @@ inputResumeBtn.addEventListener('click', function () {
 
 	if (resumeData.length > 0) {
 		console.log('data sudah terisi');
+		document.getElementById('add-name').value = '';
+		document.getElementById('add-role').value = '';
+		document.getElementById('add-availability').value = '';
+		document.getElementById('add-age').value = '';
+		document.getElementById('add-location').value = '';
+		document.getElementById('add-experience').value = '';
+		document.getElementById('add-email').value = '';
 		return;
 	}
 });
@@ -210,6 +245,7 @@ updateResumeBtn.addEventListener('click', function () {
 	} else {
 		addFormResume.style.display = 'none';
 	}
-
 	setResumeToForm();
 });
+
+deleteResumeBtn.addEventListener('click', handleDeleteResume);
