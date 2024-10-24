@@ -26,10 +26,10 @@ function insertResumeCard(id, availability, age, location, experience, email) {
 	return `
 		<div id="resume-card-${id}">
 			<p>${availability}</p>			
-			<p>${age}</p>			
-			<p>${location}</p>			
-			<p>${experience}</p>			
-			<p>${email}</p>	
+			<p class="mt-2">${age}</p>			
+			<p class="mt-2">${location}</p>			
+			<p class="mt-2">${experience}</p>			
+			<p class="mt-2">${email}</p>	
 		</div>
 	`;
 }
@@ -77,6 +77,14 @@ function handleInputResume() {
 	});
 
 	localStorage.setItem(RESUME_STORAGE, JSON.stringify(resumeData));
+
+	document.getElementById('add-name').value = '';
+	document.getElementById('add-role').value = '';
+	document.getElementById('add-availability').value = '';
+	document.getElementById('add-age').value = '';
+	document.getElementById('add-location').value = '';
+	document.getElementById('add-experience').value = '';
+	document.getElementById('add-email').value = '';
 
 	console.log(id);
 
@@ -176,6 +184,14 @@ function handleUpdateResume() {
 		localStorage.setItem(RESUME_STORAGE, JSON.stringify(resumeData));
 
 		console.log('data berhasil diperbarui');
+
+		document.getElementById('add-name').value = '';
+		document.getElementById('add-role').value = '';
+		document.getElementById('add-availability').value = '';
+		document.getElementById('add-age').value = '';
+		document.getElementById('add-location').value = '';
+		document.getElementById('add-experience').value = '';
+		document.getElementById('add-email').value = '';
 
 		handleReadResume();
 	} else {
